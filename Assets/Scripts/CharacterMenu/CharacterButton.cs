@@ -6,16 +6,10 @@ using UnityEngine.UI;
 
 public class CharacterButton : MonoBehaviour {
 
-	public Image border;
-	public Image block;
-	public Image heart;
-	public Image mask;
-	public Image character;
-	public Text lvText;
-	public Text lvValue;
-	public Text expValue;
-	public Text weight;
+	public GameObject selectedEffect;
+	public GameObject infoButton;
 
+	private bool isSelected;
 
 	private CharacterData characterData;
 
@@ -23,8 +17,18 @@ public class CharacterButton : MonoBehaviour {
 
 	public void SetUp(CharacterData data) {
 		characterData = data;
+	}
 
-		
+	public void ClickTrigger() {
+		if (isSelected == true) {
+			isSelected = false;
+			infoButton.SetActive (false);
+			selectedEffect.SetActive (false);
+		} else {
+			isSelected = true;
+			infoButton.SetActive (true);
+			selectedEffect.SetActive (true);
+		}
 	}
 
 	// Use this for initialization
