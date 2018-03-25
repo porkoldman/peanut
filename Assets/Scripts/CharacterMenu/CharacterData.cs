@@ -4,10 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class CharacterCard {
-	public Text name;
+public class CharacterData {
+
 	public Image image;
-	public int weight;
+	public string name;
 	public int lvl;
+	public int weight;
 	public int exp;
+
 }

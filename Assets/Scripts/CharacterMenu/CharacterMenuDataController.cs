@@ -2,7 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FakeData : MonoBehaviour {
+public class CharacterMenuDataController : MonoBehaviour {
+
+	public CharacterMenuData characterMenuData;
+
+
+	public CharacterMenuData GetData() {
+		return characterMenuData;
+	}
 
 	// Use this for initialization
 	void Start () {
