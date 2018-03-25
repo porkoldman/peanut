@@ -5,13 +5,12 @@ using UnityEngine.UI;
 
 
 public class CharacterButton : MonoBehaviour {
-
 	public GameObject selectedEffect;
 	public GameObject infoButton;
 
-	private PlayCharacterPanelController playCharacterPanelController;
-	private bool isOnPlay;
-	private bool isSelected;
+	private CharacterPanelController characterPanelController;
+	private bool isOnPlay = false;
+	private bool isSelected = false;
 	private CharacterData characterData;
 	private CharacterMenuController characterMenuController;
 
@@ -27,7 +26,6 @@ public class CharacterButton : MonoBehaviour {
 		isOnPlay = false;
 	}
 
-
 	public bool IsOnPlay() {
 		return isOnPlay;
 	}
@@ -41,24 +39,23 @@ public class CharacterButton : MonoBehaviour {
 			isSelected = false;
 			infoButton.SetActive (false);
 			selectedEffect.SetActive (false);
-		} else {
-			if (isOnPlay == true) {
-				playCharacterPanelController.UnSelectCurrentCharacter ();
-			}
-			isSelected = true;
-			infoButton.SetActive (true);
-			selectedEffect.SetActive (true);
-			if (isOnPlay == true) {
-				playCharacterPanelController.SetCurrentSelectedCharacter (this);
-			}
+			return;
 		}
+		if (isOnPlay == true) {
+			characterPanelController.UnSelectCurrentPlayCharacter ();
+			characterPanelController.SetCurrentSelectedPlayCharacter (this);
+		} else {
+			characterPanelController.UnSelectCurrentRestCharacter ();
+			characterPanelController.SetCurrentSelectedRestCharacter (this);
+		}
+		isSelected = true;
+		infoButton.SetActive (true);
+		selectedEffect.SetActive (true);
 	}
 
 	// Use this for initialization
 	void Start () {
-		isOnPlay = false;
-		isSelected = false;
-		playCharacterPanelController = FindObjectOfType<PlayCharacterPanelController> ();
+		characterPanelController = FindObjectOfType<CharacterPanelController> ();
 	}
 	
 	// Update is called once per frame

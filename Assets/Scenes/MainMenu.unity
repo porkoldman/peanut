@@ -2358,7 +2358,7 @@ Prefab:
     - target: {fileID: 224702627513317502, guid: a10b1354094aa402499406e4a4128f96,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -101.45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224702627513317502, guid: a10b1354094aa402499406e4a4128f96,
         type: 2}
@@ -2500,7 +2500,7 @@ Prefab:
     - target: {fileID: 224702627513317502, guid: a10b1354094aa402499406e4a4128f96,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -101.45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224702627513317502, guid: a10b1354094aa402499406e4a4128f96,
         type: 2}
@@ -3704,7 +3704,7 @@ Prefab:
     - target: {fileID: 224702627513317502, guid: a10b1354094aa402499406e4a4128f96,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -101.45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224702627513317502, guid: a10b1354094aa402499406e4a4128f96,
         type: 2}
@@ -3895,6 +3895,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 857501539}
+--- !u!114 &907248633 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114219735024287978, guid: a10b1354094aa402499406e4a4128f96,
+    type: 2}
+  m_PrefabInternal: {fileID: 837495001}
+  m_Script: {fileID: 11500000, guid: f051f3d967e7041f29849820156efa7f, type: 3}
 --- !u!1 &907497365
 GameObject:
   m_ObjectHideFlags: 0
@@ -4588,7 +4594,7 @@ Prefab:
     - target: {fileID: 224702627513317502, guid: a10b1354094aa402499406e4a4128f96,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -101.45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224702627513317502, guid: a10b1354094aa402499406e4a4128f96,
         type: 2}
@@ -5380,7 +5386,7 @@ GameObject:
   - component: {fileID: 1283367218}
   - component: {fileID: 1283367217}
   m_Layer: 5
-  m_Name: PlayCharacterPanelController
+  m_Name: CharacterPanelController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5394,7 +5400,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1283367216}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea4718a017e834df18b339dedf988559, type: 3}
+  m_Script: {fileID: 11500000, guid: e9d9778ec75a14efe80dcf130ffce090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playSlot1: {fileID: 307751311}
@@ -5402,7 +5408,8 @@ MonoBehaviour:
   playSlot3: {fileID: 226716856}
   playSlot4: {fileID: 31105869}
   playSlot5: {fileID: 942672838}
-  currentSelectedCharacter: {fileID: 307751311}
+  currentSelectedPlayCharacter: {fileID: 307751311}
+  currentSelectedRestCharacter: {fileID: 907248633}
 --- !u!224 &1283367218
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7232,7 +7239,7 @@ Prefab:
     - target: {fileID: 224702627513317502, guid: a10b1354094aa402499406e4a4128f96,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -101.45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224702627513317502, guid: a10b1354094aa402499406e4a4128f96,
         type: 2}
