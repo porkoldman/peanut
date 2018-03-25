@@ -16,11 +16,26 @@ public class CharacterPanelController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		playSlot1.SetOnPlay ();
-		playSlot2.SetOnPlay ();
-		playSlot3.SetOnPlay ();
-		playSlot4.SetOnPlay ();
-		playSlot5.SetOnPlay ();
+	}
+
+	public void setPlayCharacterSlot(int index, CharacterButton obj) {
+		switch (index) {
+		case 0:
+			playSlot1 = obj;
+			break;
+		case 1:
+			playSlot2 = obj;
+			break;
+		case 2:
+			playSlot3 = obj;
+			break;
+		case 3:
+			playSlot4 = obj;
+			break;
+		case 4:
+			playSlot5 = obj;
+			break;
+		}
 	}
 
 	public void UnSelectCurrentPlayCharacter() {

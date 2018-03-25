@@ -6,7 +6,6 @@ public class CharacterMenuDataController : MonoBehaviour {
 
 	public CharacterMenuData characterMenuData;
 
-
 	public CharacterMenuData GetData() {
 		return characterMenuData;
 	}

@@ -1,15 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-
+[System.Serializable]
 public class CharacterData {
-
-	public Image image;
-	public string name;
+	public bool isEmpty;
 	public int lvl;
 	public int weight;
 	public int exp;
-
+	public string imgPath;
 }

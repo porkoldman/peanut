@@ -59,7 +59,6 @@ public class MenuBtnClickTrigger : MonoBehaviour {
 		CharacterBtn.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 	}
 
-
 	public void ClickCharacterBtn() {
 		var block001Sprite = GameObject.Find ("/Canvas/Material/block_001").GetComponent<Image> ().sprite;
 		if (clickedIndex != 1) {

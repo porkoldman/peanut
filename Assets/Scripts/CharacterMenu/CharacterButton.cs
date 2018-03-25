@@ -53,6 +53,45 @@ public class CharacterButton : MonoBehaviour {
 		selectedEffect.SetActive (true);
 	}
 
+	public void SetCharacterImage(string imgPath) {
+		GameObject maskObject = gameObject.transform.Find("Mask").gameObject;
+		GameObject imageObject = maskObject.transform.Find("CharacterImage").gameObject;
+		if (imageObject == null) {
+			Debug.Log ("Cannot get child from CharacterButton with name: CharacterImage");
+			return;
+		}
+		Image targetImage = GameObject.Find (imgPath).GetComponent<Image> ();
+		imageObject.GetComponent<Image> ().sprite = targetImage.sprite;
+		imageObject.GetComponent<Image> ().SetNativeSize ();
+	}
+
+	public void SetWeight(int weightValue) {
+		GameObject weightObject = gameObject.transform.Find("Weight").gameObject;
+		if (weightObject == null) {
+			Debug.Log ("Cannot get child from CharacterButton with name: Weight");
+			return;
+		}
+		weightObject.GetComponent<Text> ().text = weightValue.ToString ();
+	}
+
+	public void SetLvl(int lvlValue) {
+		GameObject lvObject = gameObject.transform.Find("LvValue").gameObject;
+		if (lvObject == null) {
+			Debug.Log ("Cannot get child from CharacterButton with name: LvValue");
+			return;
+		}
+		lvObject.GetComponent<Text> ().text = lvlValue.ToString ();
+	}
+
+	public void SetExp(int expValue) {
+		GameObject expObject = gameObject.transform.Find("ExpValue").gameObject;
+		if (expObject == null) {
+			Debug.Log ("Cannot get child from CharacterButton with name: ExpValue");
+			return;
+		}
+		expObject.GetComponent<Text> ().text = expValue.ToString ();
+	}
+
 	// Use this for initialization
 	void Start () {
 		characterPanelController = FindObjectOfType<CharacterPanelController> ();
@@ -63,3 +102,4 @@ public class CharacterButton : MonoBehaviour {
 		
 	}
 }
+
