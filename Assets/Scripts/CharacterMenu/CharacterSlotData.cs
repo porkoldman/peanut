@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class CharacterData {
+public class CharacterSlotData {
 	public bool isEmpty;
 	public int lvl;
 	public int weight;

@@ -10,5 +10,4 @@ public class CharacterMenuData {
 	public CharacterDeckData deck3; 
 	public CharacterDeckData deck4; 
 	public CharacterDeckData deck5; 
-
 }

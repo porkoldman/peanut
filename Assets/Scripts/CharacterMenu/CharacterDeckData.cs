@@ -4,11 +4,10 @@ using UnityEngine;
 
 [System.Serializable]
 public class CharacterDeckData {
-
-	public CharacterData slot1;
-	public CharacterData slot2;
-	public CharacterData slot3;
-	public CharacterData slot4;
-	public CharacterData slot5;
-	public CharacterData[] restCharacter;
+	public CharacterSlotData playSlot1;
+	public CharacterSlotData playSlot2;
+	public CharacterSlotData playSlot3;
+	public CharacterSlotData playSlot4;
+	public CharacterSlotData playSlot5;
+	public CharacterSlotData[] restCharacterSlots;
 }
