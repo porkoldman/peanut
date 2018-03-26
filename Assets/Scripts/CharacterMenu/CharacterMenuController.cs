@@ -1,70 +1,114 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+
 
 public class CharacterMenuController : MonoBehaviour {
 
+	public SimpleObjectPool characterSlotPool;
+	public Transform playCharacterSlotParent;
+	public Transform restCharacterSlotParent;
+
 	public CharacterMenuData characterMenuData;
-	public SimpleObjectPool CharacterSlotPool;
-	public GameObject PlayCharacterSlotGroup;
-	public Transform PlayCharacterSlotParent;
-	public GameObject RestCharacterSlotGroup;
+
+	private int currentDeckIndex = 0;
 
 	private int playSlotType = 0;
 	private int restSlotType = 1;
 
-	private CharacterSlot playSlot1;
-	private CharacterSlot playSlot2;
-	private CharacterSlot playSlot3;
-	private CharacterSlot playSlot4;
-	private CharacterSlot playSlot5;
-	private int currentDeck = 0;
 	private CharacterSlot currentSelectedPlayCharacterSlot;
 	private CharacterSlot currentSelectedRestCharacterSlot;
 
+	private void LoadCharacterMenuData() {
+		string filePath = Path.Combine (Application.streamingAssetsPath, "data.json");
+		if (File.Exists (filePath)) {
+			string dataAsJson = File.ReadAllText (filePath);
+			characterMenuData = JsonUtility.FromJson<CharacterMenuData> (dataAsJson);
+		} else {
+			Debug.LogError ("Cannot load character menu data!");
+		}
+	}
+
+	public void ClearDeckData() {
+		playCharacterSlotParent.DetachChildren ();
+		restCharacterSlotParent.DetachChildren ();
+	}
+
+
+	public void SwitchDeckData(int deckIndex) {
+		if (deckIndex == currentDeckIndex) {
+			return;
+		}
+		ClearDeckData ();
+		InitDeckData (deckIndex);
+		currentDeckIndex = deckIndex;
+	}
+
+
+	public void RefreshCurrentDeckData() {
+		ClearDeckData ();
+		InitDeckData (currentDeckIndex);
+	}
+
 	void Start() {
+		LoadCharacterMenuData ();
 		InitCharacterMenu ();
 	}
 
 	public void InitCharacterMenu() {
-		CharacterDeckData deck1 = characterMenuData.deck1;
-		CharacterSlotData[] playSlots = {deck1.playSlot1, deck1.playSlot2, deck1.playSlot3, deck1.playSlot4, deck1.playSlot5};
-		for (int i = 0; i < 5; i++) {
-			GameObject characterSlotObject = CharacterSlotPool.GetObject();
-			characterSlotObject.transform.SetParent (PlayCharacterSlotParent);
+		InitDeckData (0);
+	}
+
+	public void InitDeckData(int deckIndex) {
+		InitPlaySlotData (deckIndex);
+		InitRestSlotData (deckIndex);
+	}
+
+	public void InitPlaySlotData(int deckIndex) {
+		CharacterDeckData deck = characterMenuData.allDeckData[deckIndex];
+		CharacterSlotData[] playSlots = deck.allPlaySlotData;
+		for (int i = 0; i < playSlots.Length; i++) {
+			GameObject characterSlotObject = characterSlotPool.GetObject();
+			characterSlotObject.transform.SetParent (playCharacterSlotParent);
+
 			CharacterSlot characterSlot = characterSlotObject.GetComponent<CharacterSlot> ();
 			characterSlot.SetCharacterSlotData (playSlots[i]);
 			characterSlot.LetItOnPlay ();
+
 			if (playSlots[i].isEmpty == true) {
 				characterSlot.ClearSlot ();
 				continue;
 			}
+
 			characterSlot.FillSlot ();
 			characterSlot.SetLvl (playSlots[i].lvl);
 			characterSlot.SetWeight (playSlots[i].weight);
 			characterSlot.SetExp (playSlots[i].exp);
-			characterSlot.SetCharacterImage (playSlots[i].imgPath);
-			SetPlayCharacterSlot (i, characterSlot);
+			characterSlot.SetCharacterImage (playSlots[i].imagePath);
 		}
 	}
 
-	public void SetPlayCharacterSlot(int index, CharacterSlot obj) {
-		switch (index) {
-		case 0:
-			playSlot1 = obj;
-			break;
-		case 1:
-			playSlot2 = obj;
-			break;
-		case 2:
-			playSlot3 = obj;
-			break;
-		case 3:
-			playSlot4 = obj;
-			break;
-		case 4:
-			playSlot5 = obj;
-			break;
+	public void InitRestSlotData(int deckIndex) {
+		CharacterDeckData deck = characterMenuData.allDeckData[deckIndex];
+		CharacterSlotData[] restSlots = deck.allRestSlotData;
+		for (int i = 0; i < restSlots.Length; i++) {
+			GameObject characterSlotObject = characterSlotPool.GetObject();
+			characterSlotObject.transform.SetParent (restCharacterSlotParent);
+
+			CharacterSlot characterSlot = characterSlotObject.GetComponent<CharacterSlot> ();
+			characterSlot.SetCharacterSlotData (restSlots[i]);
+			characterSlot.LetItOnRest ();
+
+			if (restSlots[i].isEmpty == true) {
+				continue;
+			}
+
+			characterSlot.FillSlot ();
+			characterSlot.SetLvl (restSlots[i].lvl);
+			characterSlot.SetWeight (restSlots[i].weight);
+			characterSlot.SetExp (restSlots[i].exp);
+			characterSlot.SetCharacterImage (restSlots[i].imagePath);
 		}
 	}
 
