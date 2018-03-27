@@ -54,7 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224834905088386360}
   m_Layer: 5
-  m_Name: CharacterSlotObject
+  m_Name: CharacterContent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -328,8 +328,8 @@ MonoBehaviour:
   fillObject: {fileID: 1778680245693440}
   selectedEffect: {fileID: 1977923215863100}
   characterImage: {fileID: 1763359790991198}
-  characterSlotObject: {fileID: 1145722134133292}
   infoButton: {fileID: 1795753520650926}
+  characterContent: {fileID: 1145722134133292}
 --- !u!114 &114011525671279074
 MonoBehaviour:
   m_ObjectHideFlags: 1

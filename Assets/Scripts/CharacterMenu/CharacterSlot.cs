@@ -6,19 +6,37 @@ using UnityEngine.UI;
 
 public class CharacterSlot : MonoBehaviour {
 
+	// the object will be displayed when slot is empty. 
 	public GameObject emptyObject;
+
+	// the object will be displayed when slot is filled. 
 	public GameObject fillObject;
+
+	// when slot is highlight, the selected effect will be displayed. 
 	public GameObject selectedEffect;
 
+	// the image of character in this slot
 	public GameObject characterImage;
-	public GameObject characterSlotObject;
+
+	// the button to show character's detail info.
 	public GameObject infoButton;
 
+	// the game object that content the data of character.
+	public GameObject characterContent; 
+
+	// is the slot on play group
 	private bool isOnPlay = false;
+
+	// is the slot on rest group
 	private bool isOnRest = false;
+
+	// is the slot be selected
 	private bool isSelected = false;
+
+	// the character data in this slot.
 	private CharacterSlotData characterSlotData;
 
+	// the controller to control character menu.
 	private CharacterMenuController characterMenuController;
 
 	public void LetItOnPlay() {
@@ -69,18 +87,12 @@ public class CharacterSlot : MonoBehaviour {
 			slotType = 1;
 		}
 		characterMenuController.CancelCurrentSelectedCharacterSlot (slotType);
-		characterMenuController.SetCurrentSelectedCharacterSlot (this, slotType);
-
 		isSelected = true;
 		if (characterSlotData.isEmpty == false) {
 			infoButton.SetActive (true);
 		}
 		selectedEffect.SetActive (true);
-
-		if (characterMenuController.CheckSwitchSlot() == true) {
-			characterMenuController.SwitchCurrentRestAndPlaySlot ();
-		}
-
+		characterMenuController.SetCurrentSelectedCharacterSlot (this, slotType);
 	}
 
 	public void SetCharacterSlotData(CharacterSlotData data) {
@@ -102,7 +114,7 @@ public class CharacterSlot : MonoBehaviour {
 	}
 
 	public void SetWeight(int weightValue) {
-		GameObject weightObject = characterSlotObject.transform.Find("Weight").gameObject;
+		GameObject weightObject = characterContent.transform.Find("Weight").gameObject;
 		if (weightObject == null) {
 			Debug.Log ("Cannot get child from CharacterSlot with name: Weight");
 			return;
@@ -111,7 +123,7 @@ public class CharacterSlot : MonoBehaviour {
 	}
 
 	public void SetLvl(int lvlValue) {
-		GameObject lvObject = characterSlotObject.transform.Find("LvValue").gameObject;
+		GameObject lvObject = characterContent.transform.Find("LvValue").gameObject;
 		if (lvObject == null) {
 			Debug.Log ("Cannot get child from CharacterSlot with name: LvValue");
 			return;
@@ -120,7 +132,7 @@ public class CharacterSlot : MonoBehaviour {
 	}
 
 	public void SetExp(int expValue) {
-		GameObject expObject = characterSlotObject.transform.Find("ExpValue").gameObject;
+		GameObject expObject = characterContent.transform.Find("ExpValue").gameObject;
 		if (expObject == null) {
 			Debug.Log ("Cannot get child from CharacterSlot with name: ExpValue");
 			return;

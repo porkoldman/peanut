@@ -20,6 +20,49 @@ public class CharacterMenuController : MonoBehaviour {
 	private CharacterSlot currentSelectedPlayCharacterSlot;
 	private CharacterSlot currentSelectedRestCharacterSlot;
 
+	void Start() {
+		LoadCharacterMenuData ();
+		InitCharacterMenu ();
+	}
+
+	public void SwitchDeckData(int deckIndex) {
+		if (deckIndex == currentDeckIndex) {
+			return;
+		}
+		ClearDeckData ();
+		InitDeckData (deckIndex);
+		currentDeckIndex = deckIndex;
+	}
+
+	public void SetCurrentSelectedCharacterSlot(CharacterSlot obj, int slotTyep) {
+		if (slotTyep == playSlotType) {
+			currentSelectedPlayCharacterSlot = obj;
+		} else if (slotTyep == restSlotType) {
+			currentSelectedRestCharacterSlot = obj;
+		}
+
+		if (CheckSwitchSlot() == true) {
+			SwitchCurrentRestAndPlaySlot ();
+		}
+	}
+
+	public void CancelCurrentSelectedCharacterSlot(int slotTyep) {
+		CharacterSlot targetCharacterSlot;
+		if (slotTyep == playSlotType) {
+			targetCharacterSlot = currentSelectedPlayCharacterSlot;
+		} else if (slotTyep == restSlotType) {
+			targetCharacterSlot = currentSelectedRestCharacterSlot;
+		} else {
+			return;
+		}
+		if (targetCharacterSlot == null) {
+			return;
+		}
+		if (targetCharacterSlot.IsSelected () == true) {
+			targetCharacterSlot.ClickTrigger ();
+		}
+	}
+
 	private void LoadCharacterMenuData() {
 		string filePath = Path.Combine (Application.streamingAssetsPath, "data.json");
 		if (File.Exists (filePath)) {
@@ -41,48 +84,16 @@ public class CharacterMenuController : MonoBehaviour {
 
 	}
 
-	public void ClearDeckData() {
-		//playCharacterSlotParent.DetachChildren ();
-		//restCharacterSlotParent.DetachChildren ();
-
-		foreach (Transform child in playCharacterSlotParent.transform) {
-			GameObject.Destroy(child.gameObject);
-		}
-		foreach (Transform child in restCharacterSlotParent.transform) {
-			GameObject.Destroy(child.gameObject);
-		}
-
-	}
-
-	public void SwitchDeckData(int deckIndex) {
-		if (deckIndex == currentDeckIndex) {
-			return;
-		}
-		ClearDeckData ();
-		InitDeckData (deckIndex);
-		currentDeckIndex = deckIndex;
-	}
-
-	public void RefreshCurrentDeckData() {
-		ClearDeckData ();
-		InitDeckData (currentDeckIndex);
-	}
-
-	void Start() {
-		LoadCharacterMenuData ();
-		InitCharacterMenu ();
-	}
-
-	public void InitCharacterMenu() {
+	private void InitCharacterMenu() {
 		InitDeckData (0);
 	}
 
-	public void InitDeckData(int deckIndex) {
+	private void InitDeckData(int deckIndex) {
 		InitPlaySlotData (deckIndex);
 		InitRestSlotData (deckIndex);
 	}
 
-	public void InitPlaySlotData(int deckIndex) {
+	private void InitPlaySlotData(int deckIndex) {
 		CharacterDeckData deck = characterMenuData.allDeckData[deckIndex];
 		CharacterSlotData[] playSlots = deck.allPlaySlotData;
 		for (int i = 0; i < playSlots.Length; i++) {
@@ -97,7 +108,6 @@ public class CharacterMenuController : MonoBehaviour {
 				characterSlot.ClearSlot ();
 				continue;
 			}
-
 			characterSlot.FillSlot ();
 			characterSlot.SetLvl (playSlots[i].lvl);
 			characterSlot.SetWeight (playSlots[i].weight);
@@ -106,20 +116,21 @@ public class CharacterMenuController : MonoBehaviour {
 		}
 	}
 
-	public void InitRestSlotData(int deckIndex) {
+	private void InitRestSlotData(int deckIndex) {
+		RemoveEmptySlotFromRestSlots ();
 		CharacterDeckData deck = characterMenuData.allDeckData[deckIndex];
 		CharacterSlotData[] restSlots = deck.allRestSlotData;
 		for (int i = 0; i < restSlots.Length; i++) {
+			if (restSlots[i].isEmpty == true) {
+				continue;
+			}
+
 			GameObject characterSlotObject = characterSlotPool.GetObject();
 			characterSlotObject.transform.SetParent (restCharacterSlotParent);
 
 			CharacterSlot characterSlot = characterSlotObject.GetComponent<CharacterSlot> ();
 			characterSlot.SetCharacterSlotData (restSlots[i]);
 			characterSlot.LetItOnRest ();
-
-			if (restSlots[i].isEmpty == true) {
-				continue;
-			}
 
 			characterSlot.FillSlot ();
 			characterSlot.SetLvl (restSlots[i].lvl);
@@ -129,32 +140,24 @@ public class CharacterMenuController : MonoBehaviour {
 		}
 	}
 
-	public void CancelCurrentSelectedCharacterSlot(int slotTyep) {
-		CharacterSlot targetCharacterSlot;
-		if (slotTyep == playSlotType) {
-			targetCharacterSlot = currentSelectedPlayCharacterSlot;
-		} else if (slotTyep == restSlotType) {
-			targetCharacterSlot = currentSelectedRestCharacterSlot;
-		} else {
-			return;
+	private void ClearDeckData() {
+		//playCharacterSlotParent.DetachChildren ();
+		//restCharacterSlotParent.DetachChildren ();
+
+		foreach (Transform child in playCharacterSlotParent.transform) {
+			GameObject.Destroy(child.gameObject);
 		}
-		if (targetCharacterSlot == null) {
-			return;
-		}
-		if (targetCharacterSlot.IsSelected () == true) {
-			targetCharacterSlot.ClickTrigger ();
+		foreach (Transform child in restCharacterSlotParent.transform) {
+			GameObject.Destroy(child.gameObject);
 		}
 	}
 
-	public void SetCurrentSelectedCharacterSlot(CharacterSlot obj, int slotTyep) {
-		if (slotTyep == playSlotType) {
-			currentSelectedPlayCharacterSlot = obj;
-		} else if (slotTyep == restSlotType) {
-			currentSelectedRestCharacterSlot = obj;
-		}
+	private void RefreshCurrentDeckData() {
+		ClearDeckData ();
+		InitDeckData (currentDeckIndex);
 	}
 
-	public bool CheckSwitchSlot() {
+	private bool CheckSwitchSlot() {
 		if (currentSelectedPlayCharacterSlot == null || currentSelectedRestCharacterSlot == null) {
 			return false;
 		}
@@ -165,7 +168,7 @@ public class CharacterMenuController : MonoBehaviour {
 		return true;
 	}
 
-	public void SwitchCurrentRestAndPlaySlot() {
+	private void SwitchCurrentRestAndPlaySlot() {
 		CharacterSlotData[] playSlots = characterMenuData.allDeckData [currentDeckIndex].allPlaySlotData;
 		CharacterSlotData[] restSlots = characterMenuData.allDeckData [currentDeckIndex].allRestSlotData;
 
@@ -183,5 +186,20 @@ public class CharacterMenuController : MonoBehaviour {
 		CancelCurrentSelectedCharacterSlot (1);
 		RefreshCurrentDeckData ();
 		SaveCharacterMenuData ();
+	}
+
+	private void RemoveEmptySlotFromRestSlots() {
+		CharacterSlotData[] restSlots = characterMenuData.allDeckData [currentDeckIndex].allRestSlotData;
+		restSlots = Array.FindAll(restSlots, val => val.isEmpty == false);
+		/**
+		int[] a = { 1, 2, 3, 4, 5 };
+		int[] b = a;
+
+		a = Array.FindAll(b, val => val < 6);
+
+		b [0] = 9;
+		Debug.Log (a[0].ToString());
+		*/
+		characterMenuData.allDeckData [currentDeckIndex].allRestSlotData = restSlots;
 	}
 }
