@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-
+using System;
 
 public class CharacterMenuController : MonoBehaviour {
 
@@ -31,10 +31,17 @@ public class CharacterMenuController : MonoBehaviour {
 	}
 
 	public void ClearDeckData() {
-		playCharacterSlotParent.DetachChildren ();
-		restCharacterSlotParent.DetachChildren ();
-	}
+		//playCharacterSlotParent.DetachChildren ();
+		//restCharacterSlotParent.DetachChildren ();
 
+		foreach (Transform child in playCharacterSlotParent.transform) {
+			GameObject.Destroy(child.gameObject);
+		}
+		foreach (Transform child in restCharacterSlotParent.transform) {
+			GameObject.Destroy(child.gameObject);
+		}
+
+	}
 
 	public void SwitchDeckData(int deckIndex) {
 		if (deckIndex == currentDeckIndex) {
@@ -44,7 +51,6 @@ public class CharacterMenuController : MonoBehaviour {
 		InitDeckData (deckIndex);
 		currentDeckIndex = deckIndex;
 	}
-
 
 	public void RefreshCurrentDeckData() {
 		ClearDeckData ();
@@ -136,4 +142,36 @@ public class CharacterMenuController : MonoBehaviour {
 			currentSelectedRestCharacterSlot = obj;
 		}
 	}
+
+
+	public bool CheckSwitchSlot() {
+		if (currentSelectedPlayCharacterSlot == null || currentSelectedRestCharacterSlot == null) {
+			return false;
+		}
+		if (currentSelectedPlayCharacterSlot.IsSelected() == false || 
+			currentSelectedRestCharacterSlot.IsSelected() == false) {
+			return false;
+		}
+		return true;
+	}
+
+	public void SwitchCurrentRestAndPlaySlot() {
+		CharacterSlotData[] playSlots = characterMenuData.allDeckData [currentDeckIndex].allPlaySlotData;
+		CharacterSlotData[] restSlots = characterMenuData.allDeckData [currentDeckIndex].allRestSlotData;
+
+		CharacterSlotData currentPlaySlotData = currentSelectedPlayCharacterSlot.GetCharacterSlotData ();
+		CharacterSlotData currentRestSlotData = currentSelectedRestCharacterSlot.GetCharacterSlotData ();
+
+		int keyPlayIndex = Array.FindIndex(playSlots, s => s.IsEqual(currentPlaySlotData));
+		int keyRestIndex = Array.FindIndex(restSlots, s => s.IsEqual(currentRestSlotData));
+
+		CharacterSlotData temp = playSlots[keyPlayIndex];
+		playSlots[keyPlayIndex] = restSlots[keyRestIndex];
+		restSlots [keyRestIndex] = temp;
+
+		CancelCurrentSelectedCharacterSlot (0);
+		CancelCurrentSelectedCharacterSlot (1);
+		RefreshCurrentDeckData ();
+	}
+
 }

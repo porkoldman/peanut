@@ -76,10 +76,19 @@ public class CharacterSlot : MonoBehaviour {
 			infoButton.SetActive (true);
 		}
 		selectedEffect.SetActive (true);
+
+		if (characterMenuController.CheckSwitchSlot() == true) {
+			characterMenuController.SwitchCurrentRestAndPlaySlot ();
+		}
+
 	}
 
 	public void SetCharacterSlotData(CharacterSlotData data) {
 		characterSlotData = data;
+	}
+
+	public CharacterSlotData GetCharacterSlotData() {
+		return characterSlotData;
 	}
 
 	public void SetCharacterImage(string imagePath) {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [System.Serializable]
 public class CharacterSlotData {
@@ -10,4 +11,9 @@ public class CharacterSlotData {
 	public int weight;
 	public int exp;
 	public string imagePath;
+
+
+	public bool IsEqual(CharacterSlotData obj) {
+		return object.ReferenceEquals (this, obj);
+	}
 }
