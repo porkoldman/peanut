@@ -39,38 +39,46 @@ public class CharacterSlot : MonoBehaviour {
 	// the controller to control character menu.
 	private CharacterMenuController characterMenuController;
 
-	public void LetItOnPlay() {
+	// mark slot as play group, it will be calculated as play slot in character menu controller.
+	public void MarkAsPlayGroup() {
 		isOnPlay = true;
 		isOnRest = false;
 	}
 
-	public void LetItOnRest() {
+	// mark slot as resy group, it will be calculated as rest slot in character menu controller.
+	public void MarkAsRestGroup() {
 		isOnRest = true;
 		isOnPlay = false;
 	}
 
+	// whether slot is play group
 	public bool IsOnPlay() {
 		return isOnPlay;
 	}
 
+	// whether slot is rest group
 	public bool IsOnRest() {
 		return isOnRest;
 	}
 
+	// whether slot is selected
 	public bool IsSelected() {
 		return isSelected;
 	}
 
+	// make slot empty
 	public void ClearSlot() {
 		emptyObject.SetActive (true);
 		fillObject.SetActive (false);
 	}
 
+	// make slot fill with character data
 	public void FillSlot() {
 		emptyObject.SetActive (false);
 		fillObject.SetActive (true);
 	}
 
+	// handle event when slot be clicked.
 	public void ClickTrigger() {
 		if (isSelected == true) {
 			isSelected = false;
@@ -95,14 +103,17 @@ public class CharacterSlot : MonoBehaviour {
 		characterMenuController.SetCurrentSelectedCharacterSlot (this, slotType);
 	}
 
+	// set character slot data
 	public void SetCharacterSlotData(CharacterSlotData data) {
 		characterSlotData = data;
 	}
 
+	// get character slot data
 	public CharacterSlotData GetCharacterSlotData() {
 		return characterSlotData;
 	}
 
+	// set character imgage to slot.
 	public void SetCharacterImage(string imagePath) {
 		if (characterImage == null) {
 			Debug.Log ("Cannot get child from CharacterSlot with name: CharacterImage");
@@ -113,6 +124,7 @@ public class CharacterSlot : MonoBehaviour {
 		characterImage.GetComponent<Image> ().SetNativeSize ();
 	}
 
+	// set weight to slot.
 	public void SetWeight(int weightValue) {
 		GameObject weightObject = characterContent.transform.Find("Weight").gameObject;
 		if (weightObject == null) {
@@ -122,6 +134,7 @@ public class CharacterSlot : MonoBehaviour {
 		weightObject.GetComponent<Text> ().text = weightValue.ToString ();
 	}
 
+	// set lvl to slot.
 	public void SetLvl(int lvlValue) {
 		GameObject lvObject = characterContent.transform.Find("LvValue").gameObject;
 		if (lvObject == null) {
@@ -131,6 +144,7 @@ public class CharacterSlot : MonoBehaviour {
 		lvObject.GetComponent<Text> ().text = lvlValue.ToString ();
 	}
 
+	// set exp to slot.
 	public void SetExp(int expValue) {
 		GameObject expObject = characterContent.transform.Find("ExpValue").gameObject;
 		if (expObject == null) {
