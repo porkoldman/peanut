@@ -30,6 +30,17 @@ public class CharacterMenuController : MonoBehaviour {
 		}
 	}
 
+	private void SaveCharacterMenuData() {
+		string filePath = Path.Combine (Application.streamingAssetsPath, "data.json");
+		if (File.Exists (filePath)) {
+			string dataAsJson = JsonUtility.ToJson(characterMenuData);
+			File.WriteAllText (filePath, dataAsJson);
+		} else {
+			Debug.LogError ("Cannot load character menu data!");
+		}
+
+	}
+
 	public void ClearDeckData() {
 		//playCharacterSlotParent.DetachChildren ();
 		//restCharacterSlotParent.DetachChildren ();
@@ -143,7 +154,6 @@ public class CharacterMenuController : MonoBehaviour {
 		}
 	}
 
-
 	public bool CheckSwitchSlot() {
 		if (currentSelectedPlayCharacterSlot == null || currentSelectedRestCharacterSlot == null) {
 			return false;
@@ -172,6 +182,6 @@ public class CharacterMenuController : MonoBehaviour {
 		CancelCurrentSelectedCharacterSlot (0);
 		CancelCurrentSelectedCharacterSlot (1);
 		RefreshCurrentDeckData ();
+		SaveCharacterMenuData ();
 	}
-
 }
