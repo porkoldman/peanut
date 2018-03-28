@@ -79,6 +79,25 @@ public class CharacterMenuController : MonoBehaviour {
 		}
 	}
 
+	public CharacterSlot GetCurrentSelectedPlaySlot() {
+		if (currentSelectedPlayCharacterSlot.IsSelected () == true) {
+			return currentSelectedPlayCharacterSlot;
+		}
+		return null;
+	}
+
+	public CharacterSlot GetLastNonEmptyPlaySlot() {
+		int index = playCharacterSlotParent.childCount - 1;
+		for (int i = index; i >= 0; i-- ) {
+			CharacterSlot slot = playCharacterSlotParent.GetChild (i).GetComponent<CharacterSlot> ();
+
+			if (slot.GetCharacterSlotData().isEmpty != true) {
+				return slot;
+			}
+		}
+		return null;
+	}
+
 	// load charcter menu data from th cache file.
 	private void LoadCharacterMenuData() {
 		string filePath = Path.Combine (Application.streamingAssetsPath, "data.json");
@@ -139,7 +158,6 @@ public class CharacterMenuController : MonoBehaviour {
 
 	// init rest slot group with specific deck index. 
 	private void InitRestSlotData(int deckIndex) {
-		RemoveEmptySlotFromRestSlots ();
 		CharacterDeckData deck = characterMenuData.allDeckData[deckIndex];
 		CharacterSlotData[] restSlots = deck.allRestSlotData;
 		for (int i = 0; i < restSlots.Length; i++) {
@@ -167,10 +185,10 @@ public class CharacterMenuController : MonoBehaviour {
 		//playCharacterSlotParent.DetachChildren ();
 		//restCharacterSlotParent.DetachChildren ();
 
-		foreach (Transform child in playCharacterSlotParent.transform) {
+		foreach (Transform child in playCharacterSlotParent) {
 			GameObject.Destroy(child.gameObject);
 		}
-		foreach (Transform child in restCharacterSlotParent.transform) {
+		foreach (Transform child in restCharacterSlotParent) {
 			GameObject.Destroy(child.gameObject);
 		}
 	}
@@ -195,23 +213,78 @@ public class CharacterMenuController : MonoBehaviour {
 
 	// exchange group with two selected slots.
 	private void SwitchCurrentRestAndPlaySlot() {
+		// process flow: 
+		// step1: change and save the characterMenuData. 
+		// step2: update scene by switching object from its parents. 
+
+		// step1
+		// get all play and rest slot data from characterMenuData
 		CharacterSlotData[] playSlots = characterMenuData.allDeckData [currentDeckIndex].allPlaySlotData;
 		CharacterSlotData[] restSlots = characterMenuData.allDeckData [currentDeckIndex].allRestSlotData;
 
+		// get current selected slot data
 		CharacterSlotData currentPlaySlotData = currentSelectedPlayCharacterSlot.GetCharacterSlotData ();
 		CharacterSlotData currentRestSlotData = currentSelectedRestCharacterSlot.GetCharacterSlotData ();
 
+		// get selected play slot's index in all play slot data.
 		int keyPlayIndex = Array.FindIndex(playSlots, s => s.IsEqual(currentPlaySlotData));
+
+		// get selected rest slot's index in all rest slot data.
 		int keyRestIndex = Array.FindIndex(restSlots, s => s.IsEqual(currentRestSlotData));
 
+		// use index to switch the data between play and rest 
 		CharacterSlotData temp = playSlots[keyPlayIndex];
 		playSlots[keyPlayIndex] = restSlots[keyRestIndex];
 		restSlots [keyRestIndex] = temp;
 
+		// remove the empty slot from rest slots
+		RemoveEmptySlotFromRestSlots ();
+
+		// save changed data to the cache file
+		SaveCharacterMenuData ();
+
+		// step2
+		// get sibling index in parent
+		int currentPlaySiblingIndex = currentSelectedPlayCharacterSlot.gameObject.transform.GetSiblingIndex ();
+		int currentRestSiblingIndex = currentSelectedRestCharacterSlot.gameObject.transform.GetSiblingIndex ();
+
+		// remove slot object from the parent.
+		currentSelectedPlayCharacterSlot.gameObject.transform.SetParent(null);
+		currentSelectedRestCharacterSlot.gameObject.transform.SetParent(null);
+
+		// check play slot is empty or not.
+		if (currentSelectedPlayCharacterSlot.GetCharacterSlotData ().isEmpty == false) {
+			// set current play slot to rest group
+			currentSelectedPlayCharacterSlot.gameObject.transform.SetParent (restCharacterSlotParent);
+			currentSelectedPlayCharacterSlot.gameObject.transform.SetSiblingIndex (currentRestSiblingIndex);
+		} else {
+			// remove current play slot
+			GameObject.Destroy (currentSelectedPlayCharacterSlot.gameObject);
+			currentSelectedPlayCharacterSlot = null;
+		}
+
+		// set current rest slot to play group
+		currentSelectedRestCharacterSlot.gameObject.transform.SetParent (playCharacterSlotParent);
+		currentSelectedRestCharacterSlot.gameObject.transform.SetSiblingIndex (currentPlaySiblingIndex);
+
+		// switch current selected object
+		CharacterSlot tempSlot = currentSelectedPlayCharacterSlot;
+		currentSelectedPlayCharacterSlot = currentSelectedRestCharacterSlot;
+		currentSelectedRestCharacterSlot = tempSlot;
+
+		// remark group to current slot
+		if (currentSelectedPlayCharacterSlot != null) {
+			currentSelectedPlayCharacterSlot.MarkAsPlayGroup ();
+		}
+		if (currentSelectedRestCharacterSlot != null) {
+			currentSelectedRestCharacterSlot.MarkAsRestGroup ();
+		}
+
+		// cancel selected status to current slot
 		CancelCurrentSelectedCharacterSlot (0);
 		CancelCurrentSelectedCharacterSlot (1);
-		RefreshCurrentDeckData ();
-		SaveCharacterMenuData ();
+
+		//RefreshCurrentDeckData ();
 	}
 
 	// delete the empty slot from rest slot group.
@@ -231,4 +304,6 @@ public class CharacterMenuController : MonoBehaviour {
 		Debug.Log (a[0].ToString());
 		*/
 	}
+
+
 }
