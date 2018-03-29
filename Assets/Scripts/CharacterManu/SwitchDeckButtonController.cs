@@ -3,9 +3,9 @@ using System.Collections;
 
 public class SwitchDeckButtonController : MonoBehaviour
 {
-	// record all buttons that need to be controlled 
+	// all buttons that need to be controlled 
 	public SwitchDackButton[] allSwitchDeckButton;
 
-	// record button's index that is selected now.
+	// selected button's index.
 	public int selectedIndex = 0 ;
 }

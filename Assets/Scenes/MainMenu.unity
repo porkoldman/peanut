@@ -531,7 +531,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 90257037}
-        m_MethodName: HightLight
+        m_MethodName: Selected
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1135,70 +1135,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 390893059}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 026592fefba55423695571a6b1d91dca, type: 3}
+  m_Script: {fileID: 11500000, guid: f59be57627c2f432d8b21509f0098a06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characterSlotPool: {fileID: 593616639}
-  playCharacterSlotParent: {fileID: 1387507904}
-  restCharacterSlotParent: {fileID: 1095577004}
-  characterMenuData:
-    allDeckData:
-    - allPlaySlotData:
-      - isEmpty: 0
-        characterId: 0
-        lvl: 11
-        weight: 3
-        exp: 563
-        imagePath: /Canvas/Material/Edward_001
-      - isEmpty: 0
-        characterId: 1
-        lvl: 13
-        weight: 3
-        exp: 1103
-        imagePath: /Canvas/Material/NuoNuo_001
-      - isEmpty: 0
-        characterId: 2
-        lvl: 8
-        weight: 4
-        exp: 66
-        imagePath: /Canvas/Material/GuCuBa_001
-      - isEmpty: 0
-        characterId: 3
-        lvl: 10
-        weight: 3
-        exp: 110
-        imagePath: /Canvas/Material/Bruto_001
-      - isEmpty: 1
-        characterId: 0
-        lvl: 0
-        weight: 0
-        exp: 0
-        imagePath: 
-      allRestSlotData:
-      - isEmpty: 0
-        characterId: 4
-        lvl: 1
-        weight: 2
-        exp: 13
-        imagePath: /Canvas/Material/FakeMan
-      - isEmpty: 0
-        characterId: 5
-        lvl: 6
-        weight: 3
-        exp: 45
-        imagePath: /Canvas/Material/FakeMan
-      - isEmpty: 0
-        characterId: 6
-        lvl: 7
-        weight: 6
-        exp: 26
-        imagePath: /Canvas/Material/FakeMan
-      - isEmpty: 0
-        characterId: 7
-        lvl: 12
-        weight: 9
-        exp: 331
-        imagePath: /Canvas/Material/FakeMan
+  playCharacterSlotLayoutPanel: {fileID: 1387507903}
+  restCharacterSlotLayoutPanel: {fileID: 1095577003}
 --- !u!1 &416671378
 GameObject:
   m_ObjectHideFlags: 0
@@ -1420,7 +1362,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 449981402}
-        m_MethodName: HightLight
+        m_MethodName: Selected
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1829,12 +1771,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 548aa500199f44cb3b887de150f8befe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickedIndex: 2
-  CardBtn: {fileID: 452166590}
-  CharacterBtn: {fileID: 472653402}
-  BaseHouseBtn: {fileID: 826124776}
-  ItemBtn: {fileID: 70606618}
-  ShopBtn: {fileID: 995184846}
+  clickedIndex: 0
+  CardBtn: {fileID: 0}
+  CharacterBtn: {fileID: 0}
+  BaseHouseBtn: {fileID: 0}
+  ItemBtn: {fileID: 0}
+  ShopBtn: {fileID: 0}
 --- !u!1 &593616637
 GameObject:
   m_ObjectHideFlags: 0
@@ -2682,7 +2624,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 857501544}
-        m_MethodName: HightLight
+        m_MethodName: Selected
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2817,7 +2759,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 907497370}
-        m_MethodName: HightLight
+        m_MethodName: Selected
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3020,7 +2962,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 923297680}
-        m_MethodName: HightLight
+        m_MethodName: Selected
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3633,8 +3575,10 @@ GameObject:
   - component: {fileID: 1138234072}
   - component: {fileID: 1138234074}
   - component: {fileID: 1138234073}
+  - component: {fileID: 1138234076}
+  - component: {fileID: 1138234075}
   m_Layer: 5
-  m_Name: RemovePlaySlotButton
+  m_Name: ClearFilledPlaySlotButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3692,6 +3636,69 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1138234071}
+--- !u!114 &1138234075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1138234071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db9acf20e7d8249aeaf7676f9e8d5736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1138234076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1138234071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1138234073}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1138234075}
+        m_MethodName: OnClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1188892772
 GameObject:
   m_ObjectHideFlags: 0

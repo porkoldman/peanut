@@ -103,7 +103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224702627513317502}
   - component: {fileID: 114415151516000772}
-  - component: {fileID: 114000755230209214}
+  - component: {fileID: 114171278513209514}
   m_Layer: 5
   m_Name: CharacterSlot
   m_TagString: Untagged
@@ -313,23 +313,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &114000755230209214
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1256464236071696}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0835d9afaf49441e89417556596fe9e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  emptyObject: {fileID: 1595726454376156}
-  fillObject: {fileID: 1778680245693440}
-  selectedEffect: {fileID: 1977923215863100}
-  characterImage: {fileID: 1763359790991198}
-  infoButton: {fileID: 1795753520650926}
-  characterContent: {fileID: 1145722134133292}
 --- !u!114 &114011525671279074
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -390,6 +373,34 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114171278513209514
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1256464236071696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ffdb0cbd24f44f04aa5e211daf8ae5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emptyObject: {fileID: 1595726454376156}
+  fillObject: {fileID: 1778680245693440}
+  selectedEffect: {fileID: 1977923215863100}
+  infoButton: {fileID: 1795753520650926}
+  characterImage: {fileID: 1763359790991198}
+  characterLvl: {fileID: 1070743635803894}
+  characterWeight: {fileID: 1937112728115726}
+  characterExp: {fileID: 1194502553039222}
+  characterSlotData:
+    isEmpty: 1
+    characterId: -1
+    lvl: -1
+    weight: -1
+    exp: -1
+    imagePath: 
+  isSelected: 0
+  characterMenuController: {fileID: 0}
 --- !u!114 &114190412740152130
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -617,8 +628,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114000755230209214}
-        m_MethodName: ClickTrigger
+      - m_Target: {fileID: 114171278513209514}
+        m_MethodName: SelectedToggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

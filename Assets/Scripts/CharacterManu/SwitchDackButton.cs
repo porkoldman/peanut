@@ -20,20 +20,20 @@ public class SwitchDackButton : MonoBehaviour
 		switchDeckButtonController = FindObjectOfType<SwitchDeckButtonController> ();
 	}
 
-	// make button to unhightlight status.
-	public void UnHightLight() {
+	// cancel select button event.
+	public void UnSelected() {
 		var block005Sprite = GameObject.Find ("/Canvas/Material/block_005").GetComponent<Image> ().sprite;
 		gameObject.GetComponent<Image> ().sprite = block005Sprite;
 	}
 
-	// make button to hightlight status.
-	public void HightLight() {
+	// select button event.
+	public void Selected() {
 		if (switchDeckButtonController.selectedIndex == deckIndex) {
 			return;
 		}
-		switchDeckButtonController.allSwitchDeckButton [switchDeckButtonController.selectedIndex].UnHightLight ();
+		switchDeckButtonController.allSwitchDeckButton [switchDeckButtonController.selectedIndex].UnSelected ();
 		switchDeckButtonController.selectedIndex = deckIndex;
-		characterMenuController.SwitchDeckData (deckIndex);
+		characterMenuController.SwitchDeck (deckIndex);
 		var block004Sprite = GameObject.Find ("/Canvas/Material/block_004").GetComponent<Image> ().sprite;
 		gameObject.GetComponent<Image> ().sprite = block004Sprite;
 	}
