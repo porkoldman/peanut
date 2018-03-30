@@ -17,12 +17,11 @@ public class CharacterMenuController : MonoBehaviour
 	// a grid layout panel to contain all rest-slots
 	public GameObject restCharacterSlotLayoutPanel;
 
-
+	// all alert object. it will display when play slot is over weight
 	public GameObject alertOverWeightGroup;
 
+	// weight text
 	public GameObject weightGroup;
-
-
 
 	// record which deck is displayed.
 	private int currentDeckIndex = 0;
@@ -268,6 +267,7 @@ public class CharacterMenuController : MonoBehaviour
 		SaveAllDeckDataToFile ();
 	}
 
+	// whether play slot weight is over max limit. if yes => show alert.  if not => close alert
 	private void CheckOverWeight() {
 		int totalWeight = CaculateTotalWeight ();
 		SetWeightValueText (totalWeight.ToString());
@@ -280,12 +280,14 @@ public class CharacterMenuController : MonoBehaviour
 		}
 	}
 
+	// set the weight value
 	private void SetWeightValueText(string value) {
 		int totalWeight = CaculateTotalWeight ();
 		GameObject weightValueObject = weightGroup.transform.Find ("WeightValue").gameObject;
 		weightValueObject.GetComponent<Text> ().text = value;
 	}
 
+	// set the weight text color
 	private void SetWeightValueTextColor(Color pColor) {
 		GameObject weightValueObject = weightGroup.transform.Find ("WeightValue").gameObject;
 		GameObject maxWeightValueObject = weightGroup.transform.Find ("MaxWeightValue").gameObject;
@@ -293,6 +295,7 @@ public class CharacterMenuController : MonoBehaviour
 		maxWeightValueObject.GetComponent<Text> ().color = pColor;
 	}
 
+	// caculate all play lost's weight in current deck
 	private int CaculateTotalWeight() {
 		List<GameObject> playList = allPlaySlotObjectInAllDeck [currentDeckIndex];
 
@@ -312,7 +315,6 @@ public class CharacterMenuController : MonoBehaviour
 
 		return totalWeight;
 	}
-
 
 	// get the last non empty slot's index on play group, if not found => reutrn -1
 	private int GetLastNonEmptyPlaySlotIndex() {
@@ -350,7 +352,6 @@ public class CharacterMenuController : MonoBehaviour
 		}
 		CheckOverWeight ();
 	}
-
 
 	// create and return an empty slot object
 	private GameObject CreateNewEmptySlot() {
