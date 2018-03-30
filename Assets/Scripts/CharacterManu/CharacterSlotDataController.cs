@@ -42,6 +42,16 @@ public class CharacterSlotDataController : MonoBehaviour
 		characterMenuController = FindObjectOfType<CharacterMenuController> ();
 	}
 
+	// get weight data
+	public int GetWeightData() {
+		return characterSlotData.weight;
+	}
+
+	// get isEmpty data
+	public bool GetIsEmptyData() {
+		return characterSlotData.isEmpty;
+	}
+
 	// display this slot.
 	public void DisplayWithCharacterSlotData() {
 		if (characterSlotData == null) {

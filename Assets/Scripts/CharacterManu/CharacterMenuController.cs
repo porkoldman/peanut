@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +17,13 @@ public class CharacterMenuController : MonoBehaviour
 	// a grid layout panel to contain all rest-slots
 	public GameObject restCharacterSlotLayoutPanel;
 
+
+	public GameObject alertOverWeightGroup;
+
+	public GameObject weightGroup;
+
+
+
 	// record which deck is displayed.
 	private int currentDeckIndex = 0;
 
@@ -30,6 +38,9 @@ public class CharacterMenuController : MonoBehaviour
 
 	// the max play-slot in one deck.
 	private const int MaxPlaySlotNumber = 5;
+
+	// the max weight number that can be use in battle.
+	private const int MaxWeight = 15;
 
 	// a list to record all play slots in all decks, with structure: list[deckIndex][playSlotIndex] 
 	private List<List<GameObject>> allPlaySlotObjectInAllDeck;
@@ -133,8 +144,8 @@ public class CharacterMenuController : MonoBehaviour
 		SetSelectedRestSlotIndex (-1);
 
 		ClearAllSlotFromTheScene ();
-		DisplayDeck (deckIndex);
 		currentDeckIndex = deckIndex;
+		DisplayDeck (deckIndex);
 	}
 
 	// switch selected rest and play slot
@@ -188,6 +199,8 @@ public class CharacterMenuController : MonoBehaviour
 		if (isPlaySlotEmplty == true) {
 			GameObject.Destroy (playSlot);
 		}
+
+		CheckOverWeight ();
 
 		// save all changed to cache file.
 		SaveAllDeckDataToFile ();
@@ -249,8 +262,55 @@ public class CharacterMenuController : MonoBehaviour
 		newEmptySlotObject.transform.SetParent (playCharacterSlotLayoutPanel.transform);
 		newEmptySlotObject.transform.SetSiblingIndex (targetSiblingIndex);
 
+		CheckOverWeight ();
+
 		// save all changed to cache file.
 		SaveAllDeckDataToFile ();
+	}
+
+	private void CheckOverWeight() {
+		int totalWeight = CaculateTotalWeight ();
+		SetWeightValueText (totalWeight.ToString());
+		if (totalWeight > MaxWeight) {
+			alertOverWeightGroup.SetActive (true);
+			SetWeightValueTextColor (Color.red);
+		} else {
+			alertOverWeightGroup.SetActive (false);
+			SetWeightValueTextColor (Color.black);
+		}
+	}
+
+	private void SetWeightValueText(string value) {
+		int totalWeight = CaculateTotalWeight ();
+		GameObject weightValueObject = weightGroup.transform.Find ("WeightValue").gameObject;
+		weightValueObject.GetComponent<Text> ().text = value;
+	}
+
+	private void SetWeightValueTextColor(Color pColor) {
+		GameObject weightValueObject = weightGroup.transform.Find ("WeightValue").gameObject;
+		GameObject maxWeightValueObject = weightGroup.transform.Find ("MaxWeightValue").gameObject;
+		weightValueObject.GetComponent<Text> ().color = pColor;
+		maxWeightValueObject.GetComponent<Text> ().color = pColor;
+	}
+
+	private int CaculateTotalWeight() {
+		List<GameObject> playList = allPlaySlotObjectInAllDeck [currentDeckIndex];
+
+		int totalWeight = 0;
+
+		for (int i = 0; i < MaxPlaySlotNumber; i++) {
+			CharacterSlotDataController playSlotObject = playList [i].GetComponent<CharacterSlotDataController> ();
+			if (playSlotObject.GetIsEmptyData() == true) {
+				continue;
+			}
+			int weight = playSlotObject.GetWeightData ();
+			if (weight < 0) {
+				continue;
+			}
+			totalWeight += weight;
+		}
+
+		return totalWeight;
 	}
 
 
@@ -288,6 +348,7 @@ public class CharacterMenuController : MonoBehaviour
 			restSlotCtl.DisplayWithCharacterSlotData ();
 			restSlotsObject [i].transform.SetParent (restCharacterSlotLayoutPanel.transform);
 		}
+		CheckOverWeight ();
 	}
 
 
