@@ -232,9 +232,8 @@ public class CharacterMenuController : MonoBehaviour
 		}
 
 		// unselect the target slot
-		if (targetIndex == selectedPlaySlotIndex) {
-			SetSelectedPlaySlotIndex (-1);
-		}
+		SetSelectedPlaySlotIndex (-1);
+		SetSelectedRestSlotIndex (-1);
 
 		// create a new empty slot, 
 		GameObject newEmptySlotObject = CreateNewEmptySlot();
