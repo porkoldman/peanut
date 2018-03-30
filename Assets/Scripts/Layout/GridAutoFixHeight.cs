@@ -8,7 +8,7 @@ public class GridAutoFixHeight : MonoBehaviour {
 
 	public int columnCount;
 
-	private const scrollPanelRange = 20;
+	private const int scrollPanelRange = 20;
 
 	private float originHeight;
 
